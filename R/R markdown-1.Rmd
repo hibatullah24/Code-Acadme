@@ -1,0 +1,202 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+
+```{r}
+data
+```
+
+
+
+```{r}
+data("starwars")
+str(starwars)
+```
+
+
+``
+```{r}
+install.packages("dplyr")
+
+library(dplyr)
+
+data <- starwars
+
+colnames(data)
+
+
+```
+
+
+```{r}
+starwars %>%
+  filter(species == "Droid")
+```
+
+
+```{r}
+starwars %>%
+  select(name, ends_with("color"))
+```
+
+
+```{r}
+starwars %>%
+  arrange(desc(mass))
+```
+
+
+
+
+
+
+```{r}
+starwars %>% 
+  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
+  select(name:mass, bmi)
+```
+
+```{r}
+starwars %>%
+  group_by(species) %>%
+  summarise(
+    n = n(),
+    mass = mean(mass, na.rm = TRUE)
+  ) %>%
+  filter(
+    n > 1,
+    mass > 50
+  )
+```
+
+
+```{r}
+starwars %>%
+  filter(is.na(mass))
+  
+```
+```{r}
+colSums(is.na(starwars))
+```
+
+```{r}
+# clean num columns from NAN
+starwars_clean1 <- starwars %>%
+  mutate(
+    mass = if_else(is.na(mass), mean(mass, na.rm = TRUE), mass),
+    birth_year = if_else(is.na(birth_year), mean(birth_year, na.rm = TRUE), birth_year), 
+    height = if_else(is.na(height), mean(height, na.rm = TRUE), height)
+  )
+
+starwars_clean1
+```
+
+```{r}
+# clean string columns from NAN
+library(dplyr)
+library(tidyr)
+
+starwars_clean <- starwars %>%
+  mutate(
+    species = replace_na(species, "*UNKNOWN*"),
+    homeworld = replace_na(homeworld, "*UNKNOWN*"),
+    hair_color = replace_na(hair_color, "*UNKNOWN*"),
+    skin_color = replace_na(skin_color, "*UNKNOWN*"),
+    eye_color = replace_na( eye_color, "*UNKNOWN*"),
+    sex = replace_na( sex, "*UNKNOWN*"),
+    gender = replace_na(gender, "*UNKNOWN*"),
+    
+  )
+
+
+starwars_clean
+
+```
+```{r}
+library(readr)
+
+my_data <- read_csv("R-Ladies Dammam Data.csv", show_col_types = FALSE)
+my_data
+
+```
+```{r}
+my_data %>%
+  group_by(city, rental_type)%>%
+  summarise(mean(rental_price))
+```
+
+
+```{r}
+library(dplyr)
+
+my_data %>%
+  summarise(mean(rental_price))
+
+
+```
+```{r}
+hist(my_data$rental_price)
+```
+```{r}
+D_muscat <- my_data %>%
+  filter(city == "Muscat", rental_price < 200)
+
+D_muscat
+```
+
+```{r}
+my_data%>%
+  group_by(city)%>%
+  summarise(mean(rental_price))
+```
+
+
+```{r}
+my_data%>%
+  group_by(city)%>%
+  summarise(median(rental_price))
+```
+```{r}
+ggplot(my_data, aes(x = rental_type, y = rental_price, fill = num_of_rooms)) + geom_boxplot()+ facet_wrap(~city, scale="free")
+
+```
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(patchwork)
+library(dplyr)
+library(readr)
+
+library(ggplot2)
+
+# Create a boxplot for rental prices by rental type and city
+ggplot(my_data, aes(x = rental_type, y = rental_price, fill = city)) +
+  geom_boxplot() +
+  facet_wrap(~city) +  # Facet by city
+  scale_fill_viridis_d() +  # Optional color scale
+  labs(
+    title = "Rental Prices by Type and City",
+    subtitle = "Boxplots showing rental price distribution",
+    caption = "Source: my_data"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    plot.title = element_text(size = 18, hjust = 0.5),
+    plot.subtitle = element_text(size = 14, hjust = 0.5)
+  )
+
+
+```
+```{r}
+install.packages("plotly")  # Only once, if not already installed
+library(plotly)             # Load the package
+
+
+```
+
+
