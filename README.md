@@ -1,2 +1,2 @@
 # Code-Acadme
-collection of my experiments and projects in AI-generated Course
+Data Science & AI Trainee at Code Academy |collection of my experiments and projects in AI and Data Science Developer 
