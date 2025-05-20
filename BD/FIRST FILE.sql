@@ -1,0 +1,23 @@
+CREATE DATABASE CodeAcadme;
+USE CodeAcadme;
+CREATE TABLE Student (
+    S_ID INT AUTO_INCREMENT PRIMARY KEY,
+    FN VARCHAR(50) NOT NULL,
+    LN VARCHAR(50) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    EnrollmentDate DATE NOT NULL
+);
+DESC Student;
+CREATE TABLE N_ID
+AS (SELECT FN, LN, S_ID FROM Student);
+SELECT * FROM Student;
+
+DROP TABLE N_ID;
+RENAME TABLE Student TO Student_D;
+
+ALTER TABLE Student_D ADD Score INTEGER;
+
+DESC Student_D;
+
+
+
